@@ -1,0 +1,30 @@
+{% extends "BASE_README.md.stencil" %}
+
+{% block subtitle %}
+Run CLIs written in Swift using Mint.
+{% endblock %}
+
+{% block example %}
+```json
+{
+    "name": "SupercoolProject",
+    "version": "1.0.0",
+    "scripts": {
+        "lint": {
+            "arrow": "vknabel/MintArrow",
+            "package": "Realm/Swiftlint",
+            "verbose": true,
+            "arguments": ["lint", "--path", "Sources"]
+        }
+    }
+}
+```
+
+If there is no Archery arrow implementation for a Swift tool, you can wrap it using {{name}}. Mint and Arrow will handle your dependencies.
+```bash
+$ archery lint
+Linting Swift files at path Sources
+Linting 'main.swift' (1/1)
+Done linting! Found 0 violations, 0 serious in 1 file.
+```
+{% endblock %}

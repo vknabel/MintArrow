@@ -1,5 +1,5 @@
-import MintKit
 import ArrowKit
+import MintKit
 import PathKit
 
 struct MintArrow: Arrow {
@@ -12,7 +12,7 @@ struct MintArrow: Arrow {
     let packageVersion: String?
     let cachePath: String?
 
-    func fire(archerfile: Archerfile, arguments: [String]) throws {
+    func fire(archerfile _: Archerfile, arguments: [String]) throws {
         let mint: Mint = Mint(path: Path(cachePath ?? "./.archery/mint"))
         try mint.run(
             mintPackage(),
