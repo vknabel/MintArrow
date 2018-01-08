@@ -1,27 +1,30 @@
 import MintKit
 import ArrowKit
+import PathKit
 
 struct MintArrow: Arrow {
     let arrow: String
     let help: String?
     let package: String
     let executableName: String?
+    let arguments: [String]?
     let verbose: Bool?
-    let pacakgeVersion: String?
+    let packageVersion: String?
+    let cachePath: String?
 
     func fire(archerfile: Archerfile, arguments: [String]) throws {
-        let mint: Mint = Mint(path: "./.archery/mint")
+        let mint: Mint = Mint(path: Path(cachePath ?? "./.archery/mint"))
         try mint.run(
-            package(),
-            arguments: arguments,
+            mintPackage(),
+            arguments: (self.arguments ?? []) + arguments,
             verbose: verbose ?? false
         )
     }
 
-    func package() -> MintKit.Package {
+    func mintPackage() -> MintKit.Package {
         return Package(
             repo: package,
-            version: pacakgeVersion ?? "master",
+            version: packageVersion ?? "master",
             name: executableName ?? package.split(separator: "/").last.map(String.init) ?? package
         )
     }
