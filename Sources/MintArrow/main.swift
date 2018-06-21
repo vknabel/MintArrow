@@ -11,9 +11,13 @@ struct MintArrow: Arrow {
     let verbose: Bool?
     let packageVersion: String?
     let cachePath: String?
+    let installationPath: String?
 
     func fire(archerfile _: Archerfile, arguments: [String]) throws {
-        let mint: Mint = Mint(path: Path(cachePath ?? "./.archery/mint"))
+        let mint: Mint = Mint(
+            path: Path(cachePath ?? "./.archery/mint"),
+            installationPath: Path(installationPath ?? "./.archery/bin")
+        )
         try mint.run(
             mintPackage(),
             arguments: (self.arguments ?? []) + arguments,
