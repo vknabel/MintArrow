@@ -1,4 +1,5 @@
 import ArrowKit
+import Foundation
 import MintKit
 import PathKit
 
@@ -14,22 +15,21 @@ struct MintArrow: Arrow {
     let installationPath: String?
 
     func fire(archerfile _: Archerfile, arguments: [String]) throws {
-        let mint: Mint = Mint(
+        let mint = Mint(
             path: Path(cachePath ?? "./.archery/mint"),
-            installationPath: Path(installationPath ?? "./.archery/bin")
+            linkPath: Path(installationPath ?? ProcessInfo.processInfo.environment["MINT_LINK_PATH"] ?? "./.archery/bin")
         )
+        mint.verbose = verbose ?? false
         try mint.run(
-            mintPackage(),
-            arguments: (self.arguments ?? []) + arguments,
-            verbose: verbose ?? false
+            package: mintPackage(),
+            arguments: (self.arguments ?? []) + arguments
         )
     }
 
-    func mintPackage() -> MintKit.Package {
-        return Package(
+    func mintPackage() -> MintKit.PackageReference {
+        return PackageReference(
             repo: package,
-            version: packageVersion ?? "master",
-            name: executableName ?? package.split(separator: "/").last.map(String.init) ?? package
+            version: packageVersion ?? "master"
         )
     }
 }
